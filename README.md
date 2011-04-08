@@ -20,9 +20,8 @@ ConnectCache take only one parameter, a hash with following keys :
 
 - `regex` : a regular expression that should match on url
 - `ttl` (optional, default 3600000) : in ms, the time to live for cached datas
-- `storage` (optional, default BasicStorage) : the key-value storage system,
+- `storage` (optional, default instance of BasicStorage) : the key-value storage system,
    see Storage paragraph for more informations
-- `storage_option` (optional, default {}) : options for storage system constructor
 
 Storage
 -------
