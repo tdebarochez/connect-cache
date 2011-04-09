@@ -6,5 +6,9 @@
   "author": "Thomas Debarochez <thomas.barochez+npm@gmail.com>",
   "main": "./index.js",
   "dependencies": { "connect": ">= 0.2.4" },
-  "engines": { "node": ">= 0.4.0" }
+  "engines": { "node": ">= 0.4.0" },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tdebarochez/connect-cache.git"
+  }
 }
