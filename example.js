@@ -14,13 +14,20 @@ function helloWorld(req, res) {
       res.end('');
     }, 1000);
   }
+  else if (req.url == '/test.jpg') {
+    var img = require('fs').readFileSync('static/test.jpg', 'binary');
+    res.writeHead(200,{'Content-Type': 'image/jpeg',
+                       'Content-Length': img.length});
+    res.write(img, 'binary');
+    res.end();
+  }
   else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.write('not found');
     res.end('');
   }
 }
-var server = connect.createServer(cache({regex: /path.*/,
+var server = connect.createServer(cache({regex: /path.*|test.jpg/,
                                          ttl: 60000}),
                                   helloWorld);
 
