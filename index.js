@@ -1,1 +1,1 @@
-module.exports = require('./lib/connect-couchdb');
+module.exports = require('./lib/connect-cache');
