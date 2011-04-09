@@ -32,3 +32,8 @@ The storage class must implements 3 methods :
 - `get(key, callback)` : get content for the given key.
 - `set(key, content, callback)` : set content for the given key.
 - `remove(key, callback)` : invalidate datas for the given key. 
+
+Installation
+------------
+
+    $ npm install connect-cache
