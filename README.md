@@ -7,8 +7,9 @@ cache GET requests on your application.
 Usage
 -----
 
-    var ConnectCache = require('connect-cache');
-    var server = Connect.createServer(
+    var connect_cache = require('connect-cache');
+    var connect = require('connect');
+    var server = connect.createServer(
       connect_cache({regex: /.*/}),
       function(req, res) {
           res.writeHead(200, { 'Content-Type': 'text/plain' });
