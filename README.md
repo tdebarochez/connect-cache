@@ -33,6 +33,7 @@ The storage class must implements 3 methods :
 - `set(key, content, callback)` : set content for the given key.
 - `remove(key, callback)` : invalidate datas for the given key. 
 - `setStream(key, callback)` : (optional) used to record data from a stream
+- `getStream(key, callback)` : (optional) used to get a stream from a file
 
 Installation
 ------------
