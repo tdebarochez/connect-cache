@@ -6,6 +6,7 @@ var cache = require('../lib/connect-cache')
 
 function run_server(port) {
   var server = connect.createServer(cache({regex: /path.*|test.jpg/,
+                                           loopback: 'localhost:' + port,
                                            ttl: 60000}),
                                     function (req, res) {
                                       if (req.url == '/') {
@@ -70,6 +71,7 @@ module.exports = {
       response.on('end', function () {
         assert.strictEqual(+new Date - start >= 500, true);
         assert.strictEqual(body, 'cached result');
+        start = +new Date;
         http.get(options, function (response) {
           assert.strictEqual(response.statusCode, 200);
           var body = '';
@@ -78,7 +80,7 @@ module.exports = {
           });
           response.on('end', function () {
             assert.strictEqual(+new Date - start <= 500, true);
-            assert.strictequal(body, 'cached result');
+            assert.strictEqual(body, 'cached result');
             server.close();
           });
         });
@@ -94,7 +96,8 @@ module.exports = {
     };
     http.get(options, function (response) {
       assert.strictEqual(response.statusCode, 200);
-      var chunks = [];
+      var chunks = []
+        , length = 0;
       response.on('data', function (chunk) {
         chunks.push(new Buffer(chunk, 'binary'));
         length += chunk.length;
@@ -116,6 +119,7 @@ module.exports = {
             length += chunk.length;
           });
           response.on('end', function () {
+            server.close();
             var content = new Buffer(length);
             var offset = 0;
             chunks.forEach(function (chunk) {
@@ -124,7 +128,6 @@ module.exports = {
             });
             assert.strictEqual(length, fs.readFileSync('./static/test.jpg_', 'binary').length);
             fs.renameSync('./static/test.jpg_', 'static/test.jpg');
-            server.close();
           });
         });
       });
