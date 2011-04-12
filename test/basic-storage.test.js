@@ -16,15 +16,13 @@ module.exports = {};
       storage.get(keys[type], function (err, content) {
         assert.strictEqual(err, null);
         assert.strictEqual(utils.md5(content), utils.md5(values[type]));         
-      });
-    });
-  };
-  module.exports['remove ' + type] = function () {
-    storage.remove(keys[type], function (err) {
-      assert.strictEqual(err, null);
-      storage.get(keys[type], function (err, content) {
-        assert.strictEqual(err, null);
-        assert.strictEqual(content, false);
+        storage.remove(keys[type], function (err) {
+          assert.strictEqual(err, null);
+          storage.get(keys[type], function (err, content) {
+            assert.strictEqual(err, null);
+            assert.strictEqual(content, false);
+          });
+        });
       });
     });
   };
