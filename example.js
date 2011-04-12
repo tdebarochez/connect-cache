@@ -28,6 +28,7 @@ function helloWorld(req, res) {
   }
 }
 var server = connect.createServer(cache({regex: /path.*|test.jpg/,
+                                         loopback: 'localhost:3000',
                                          ttl: 60000}),
                                   helloWorld);
 

@@ -21,6 +21,8 @@ ConnectCache take only one parameter, a hash with following keys :
 
 - `regex` : a regular expression that should match on url
 - `ttl` (optional, default 3600000) : in ms, the time to live for cached datas
+- `loopback` (optional, default parse "Host" header in request) : host and port to call
+   to get contents, ex : 'localhost:3000'
 - `storage` (optional, default instance of BasicStorage) : the key-value storage system,
    see Storage paragraph for more informations
 
