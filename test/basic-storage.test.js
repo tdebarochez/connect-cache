@@ -34,16 +34,19 @@ module.exports = {};
       storage.get('s' + keys[type], function (err, content) {
         assert.strictEqual(err, null);
         assert.strictEqual(utils.md5(content), utils.md5(values[type]));
-        storage.readStream('s' + keys[type], function (err, read_stream) {
+        storage.writeStream('s2' + keys[type], function (err, write_stream) {
           assert.strictEqual(err, null);
-          storage.writeStream('s' + keys[type], function (err, write_stream) {
+          storage.readStream('s' + keys[type], function (err, read_stream) {
             assert.strictEqual(err, null);
-            read_stream.pipe(write_stream);
-            storage.get('s' + keys[type], function (err, content) {
-              assert.strictEqual(err, null);
-              assert.strictEqual(utils.md5(content), utils.md5(values[type]));
-              storage.remove('s' + keys[type]);
+            write_stream.on('close', function () {
+              storage.get('s2' + keys[type], function (err, content) {
+                assert.strictEqual(err, null);
+                storage.remove('s2' + keys[type]);
+                storage.remove('s' + keys[type]);
+                assert.strictEqual(utils.md5(content), utils.md5(values[type]));
+              });
             });
+            read_stream.pipe(write_stream);
           });
         });
       });
