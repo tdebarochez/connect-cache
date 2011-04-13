@@ -15,10 +15,10 @@ function helloWorld(req, res) {
     }, 1000);
   }
   else if (req.url == '/test.jpg') {
-    var img = require('fs').readFileSync('static/test.jpg', 'binary');
+    var img = require('fs').readFileSync('static/test.jpg');
     res.writeHead(200,{'Content-Type': 'image/jpeg',
                        'Content-Length': img.length});
-    res.write(img, 'binary');
+    res.write(img);
     res.end();
   }
   else {

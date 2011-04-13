@@ -7,7 +7,7 @@ var cache = require('../lib/connect-cache')
 function run_server(port, cb) {
   var server = connect.createServer(cache({regex: /path.*|test.jpg/,
                                            loopback: 'localhost:' + port,
-                                           ttl: 60000}),
+                                           ttl: 1000}),
                                     function (req, res) {
                                       if (req.url == '/') {
                                         res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -20,10 +20,10 @@ function run_server(port, cb) {
                                         }, 500);
                                       }
                                       else if (req.url == '/test.jpg') {
-                                        var img = fs.readFileSync('static/test.jpg', 'binary');
+                                        var img = fs.readFileSync('static/test.jpg');
                                         res.writeHead(200,{'Content-Type': 'image/jpeg',
                                                            'Content-Length': img.length});
-                                        res.end(img, 'binary');
+                                        res.end(img);
                                       }
                                       else {
                                         res.writeHead(404, { 'Content-Type': 'text/plain' });
@@ -100,37 +100,30 @@ module.exports = {
       };
       http.get(options, function (response) {
         assert.strictEqual(response.statusCode, 200);
-        var chunks = []
-          , length = 0;
+        var chunks = [];
         response.on('data', function (chunk) {
-          chunks.push(new Buffer(chunk, 'binary'));
-          length += chunk.length;
+          chunks.push(chunk);
         });
         response.on('end', function () {
-          var content = new Buffer(length);
           var offset = 0;
           chunks.forEach(function (chunk) {
-            chunk.copy(content, offset);
             offset += chunk.length;
           });
-          assert.strictEqual(length, fs.readFileSync('./static/test.jpg', 'binary').length);
+          assert.strictEqual(offset, fs.readFileSync('./static/test.jpg', 'binary').length);
           fs.renameSync('./static/test.jpg', 'static/test.jpg_');
           http.get(options, function (response) {
             assert.strictEqual(response.statusCode, 200);
             var chunks = [];
             response.on('data', function (chunk) {
-              chunks.push(new Buffer(chunk, 'binary'));
-              length += chunk.length;
+              chunks.push(chunk);
             });
             response.on('end', function () {
               server.close();
-              var content = new Buffer(length);
               var offset = 0;
               chunks.forEach(function (chunk) {
-                chunk.copy(content, offset);
                 offset += chunk.length;
               });
-              assert.strictEqual(length, fs.readFileSync('./static/test.jpg_', 'binary').length);
+              assert.strictEqual(offset, fs.readFileSync('./static/test.jpg_', 'binary').length);
               fs.renameSync('./static/test.jpg_', 'static/test.jpg');
             });
           });
