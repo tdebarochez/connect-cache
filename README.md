@@ -15,7 +15,7 @@ Usage
           res.writeHead(200, { 'Content-Type': 'text/plain' });
           res.end('Hello World');
       }
-    );
+    ).listen(3000);
 
 ConnectCache take only one parameter, a hash with following keys :
 
@@ -34,8 +34,9 @@ The storage class must implements 3 methods :
 - `get(key, callback)` : get content for the given key.
 - `set(key, content, callback)` : set content for the given key.
 - `remove(key, callback)` : invalidate datas for the given key. 
-- `writeStream(key, callback)` : (optional) used to record data from a stream
-- `readStream(key, callback)` : (optional) used to get a stream from a file
+- `writeStream(key, callback)` : (optional) used to write cached content as
+   stream
+- `readStream(key, callback)` : (optional) used to read cached datas as stream
 
 Installation
 ------------
