@@ -7,6 +7,8 @@ cache GET requests on your application.
 Usage
 -----
 
+This middleware must be on the first called.
+
     var connect_cache = require('connect-cache');
     var connect = require('connect');
     var server = connect.createServer(
@@ -42,3 +44,10 @@ Installation
 ------------
 
     $ npm install connect-cache
+
+How it works
+------------
+
+This module catch every request that match on regular expression and call, if the 
+result is not cached, himself with extra HTTP header : x-no-cache. The results is 
+store and forward to final client.
