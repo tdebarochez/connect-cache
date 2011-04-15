@@ -29,21 +29,27 @@ module.exports = {};
   module.exports['readStream & writeStream ' + type] = function () {
     storage.writeStream('s' + keys[type], function (err, write_stream) {
       assert.strictEqual(err, null);
+      write_stream.on('close', function () {
+        assert.strictEqual(write_stream.bytesWritten, values[type].length);
+      });
       write_stream.write(values[type]);
       write_stream.end();
       storage.get('s' + keys[type], function (err, content) {
         assert.strictEqual(err, null);
         assert.strictEqual(utils.md5(content), utils.md5(values[type]));
+        assert.strictEqual(content.length, values[type].length);
         storage.writeStream('s2' + keys[type], function (err, write_stream) {
           assert.strictEqual(err, null);
           storage.readStream('s' + keys[type], function (err, read_stream) {
             assert.strictEqual(err, null);
             write_stream.on('close', function () {
+              assert.strictEqual(write_stream.bytesWritten, values[type].length);
               storage.get('s2' + keys[type], function (err, content) {
                 assert.strictEqual(err, null);
                 storage.remove('s2' + keys[type]);
                 storage.remove('s' + keys[type]);
                 assert.strictEqual(utils.md5(content), utils.md5(values[type]));
+                assert.strictEqual(content.length, values[type].length);
               });
             });
             read_stream.pipe(write_stream);
