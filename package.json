@@ -2,7 +2,7 @@
   "name": "connect-cache",
   "description": "Caching system for Connect",
   "keywords" : [ "connect", "cache", "caching system", "middleware" ],
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Thomas Debarochez <thomas.barochez+npm@gmail.com>",
   "main": "./index.js",
   "dependencies": { "connect": ">= 0.2.4" },
