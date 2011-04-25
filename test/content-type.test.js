@@ -2,19 +2,14 @@ var express = require('express')
   , assert = require('assert')
   , http = require('http')
   , cache = require('../lib/connect-cache')({
-    regex: /\/stocks\/.+/
+    regex: /.*/
 });
 
 var web = express.createServer(cache);
 
-web.get('/stocks/:symbol', function(req, res) {
+web.get('/', function(req, res) {
     res.contentType('text/csv');
-    require('http').get({  // get stock history
-        host: 'ichart.finance.yahoo.com',
-        path: '/table.csv?s=' + req.params.symbol
-    }, function(csv) {
-        csv.pipe(res);
-    });
+    res.send('example, csv, string\n2nd, line\n');
 });
 
 web.listen(3465);
@@ -23,10 +18,10 @@ module.exports = {'csv headers': function () {
   var options = {
     host: 'localhost',
     port: 3465,
-    path: '/stocks/yoku'
+    path: '/'
   };
   http.get(options, function (response) {
-    assert.equal(response.headers['content-type'], 'text/csv');
     web.close();
+    assert.equal(response.headers['content-type'], 'text/csv');
   });
 }};
