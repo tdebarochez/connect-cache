@@ -55,3 +55,11 @@ How it works
 This module catch every request that match on regular expression and call, if the 
 result is not cached, himself with extra HTTP header : x-no-cache. The results is 
 store and forward to final client.
+
+Requirements
+------------
+
+- node (>= 0.4.6)
+- connect (>= 0.2.4)
+- express & expresso - for tests
+- cradle (= 0.1.0) - for CouchDB storage system
