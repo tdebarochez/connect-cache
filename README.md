@@ -31,7 +31,9 @@ ConnectCache take only one parameter, a hash with following keys :
 Storage
 -------
 
-The storage class must implements 3 methods :
+This package provide two bundled ways (a basic based file system and a wrapper
+for couchdb) to store your items, but you can define your own one. The storage
+class must implements 3 methods :
 
 - `get(key, callback)` : get content for the given key.
 - `set(key, content, callback)` : set content for the given key.
@@ -39,6 +41,8 @@ The storage class must implements 3 methods :
 - `writeStream(key, callback)` : (optional) used to write cached content as
    stream
 - `readStream(key, callback)` : (optional) used to read cached datas as stream
+
+Look at `examples/` folder for examples of bundled storage system.
 
 Installation
 ------------
