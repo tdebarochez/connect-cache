@@ -1,4 +1,4 @@
-var cache = require('./lib/connect-cache');
+var cache = require('../lib/connect-cache');
 var connect = require('connect');
 
 function helloWorld(req, res) {

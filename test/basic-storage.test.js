@@ -1,4 +1,4 @@
-var storage = new (require('../lib/basic-storage'))
+var storage = new (require('../lib/storages/basic'))
   , utils = require('connect').utils
   , fs = require('fs')
   , assert = require('assert');
