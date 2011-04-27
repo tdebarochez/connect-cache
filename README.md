@@ -31,8 +31,8 @@ ConnectCache take only one parameter, a hash with following keys :
 Storage
 -------
 
-This package provide two bundled ways (a basic based file system and a wrapper
-for couchdb) to store your items, but you can define your own one. The storage
+This package provide two bundled ways (a basic based file system, a basic memory and
+a wrapper for couchdb) to store your items, but you can define your own one. The storage
 class must implements 3 methods :
 
 - `get(key, callback)` : get content for the given key.
