@@ -12,7 +12,7 @@ This middleware must be on the first called.
     var connect_cache = require('connect-cache');
     var connect = require('connect');
     var server = connect.createServer(
-      connect_cache({regex: /.*/}),
+      connect_cache({rules: [{regex: /.*/, ttl: 60000}]}),
       function(req, res) {
           res.writeHead(200, { 'Content-Type': 'text/plain' });
           res.end('Hello World');
@@ -21,12 +21,19 @@ This middleware must be on the first called.
 
 ConnectCache take only one parameter, a hash with following keys :
 
-- `regex` : a regular expression that should match on url
-- `ttl` (optional, default 3600000) : in ms, the time to live for cached datas
+- `rules` : a set regular expression / ttl pairs, that should match on urls
 - `loopback` (optional, default parse "Host" header in request) : host and port to call
    to get contents, ex : 'localhost:3000'
 - `storage` (optional, default instance of BasicStorage) : the key-value storage system,
    see Storage paragraph for more informations
+
+Rules must looks like :
+
+  {rules: [{regex: /path\/.*/, ttl: 60000},
+           {regex: /other\/path\/.*/, ttl: 3600000},
+           {regex: /specified.file/, ttl: 6000000}]}
+
+Default TTL is in ms, default value is 3600000.
 
 Storage
 -------
@@ -52,7 +59,7 @@ Installation
 How it works
 ------------
 
-This module catch every request that match on regular expression and call, if the 
+This module catch every request that match on a regular expression and call, if the
 result is not cached, himself with extra HTTP header : x-no-cache. The results is 
 store and forward to final client.
 

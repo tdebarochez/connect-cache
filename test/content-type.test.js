@@ -2,7 +2,7 @@ var express = require('express')
   , assert = require('assert')
   , http = require('http')
   , cache = require('../lib/connect-cache')({
-    regex: /.*/
+    rules: [{regex: /.*/, ttl: 1000}]
 });
 
 function run_server(cb) {
@@ -26,8 +26,8 @@ module.exports = {'csv headers': function () {
       path: '/'
     };
     http.get(options, function (response) {
-      server.close();
       assert.equal(response.headers['content-type'], 'text/csv');
+      server.close();
     });
   });
 }};

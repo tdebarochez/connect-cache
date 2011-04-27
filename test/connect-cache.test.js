@@ -5,9 +5,8 @@ var cache = require('../lib/connect-cache')
   , assert = require('assert');
 
 function run_server(port, cb) {
-  var server = connect.createServer(cache({regex: /path.*|test.jpg/,
-                                           loopback: 'localhost:' + port,
-                                           ttl: 1000}),
+  var server = connect.createServer(cache({rules: [{regex: /path.*|test.jpg/, ttl: 1000}],
+                                           loopback: 'localhost:' + port}),
                                     function (req, res) {
                                       if (req.url == '/') {
                                         res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -51,8 +50,8 @@ module.exports = {
           body += chunk;
         });
         response.on('end', function () {
-          assert.equal(body, 'direct result');
           server.close();
+          assert.equal(body, 'direct result');
         });
       });
     });
@@ -82,9 +81,9 @@ module.exports = {
               body += chunk;
             });
             response.on('end', function () {
+              server.close();
               assert.strictEqual(+new Date - start <= 500, true);
               assert.strictEqual(body, 'cached result');
-              server.close();
             });
           });
         });
