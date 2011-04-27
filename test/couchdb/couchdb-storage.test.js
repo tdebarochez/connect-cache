@@ -1,4 +1,4 @@
-var storage = new (require('../lib/storages/couchdb'))('connect-cache')
+var storage = new (require('../../lib/storages/couchdb'))('connect-cache')
   , utils = require('connect').utils
   , fs = require('fs')
   , assert = require('assert');
