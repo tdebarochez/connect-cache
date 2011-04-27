@@ -38,7 +38,7 @@ Default TTL is in ms, default value is 3600000.
 Storage
 -------
 
-This package provide two bundled ways (a basic based file system, a basic memory and
+This package provide three bundled ways (a basic based file system, a basic memory and
 a wrapper for couchdb) to store your items, but you can define your own one. The storage
 class must implements 3 methods :
 
