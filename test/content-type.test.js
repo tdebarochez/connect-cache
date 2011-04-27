@@ -5,23 +5,29 @@ var express = require('express')
     regex: /.*/
 });
 
-var web = express.createServer(cache);
+function run_server(cb) {
+  var web = express.createServer(cache);
 
-web.get('/', function(req, res) {
-    res.contentType('text/csv');
-    res.send('example, csv, string\n2nd, line\n');
-});
+  web.get('/', function(req, res) {
+      res.contentType('text/csv');
+      res.send('example, csv, string\n2nd, line\n');
+  });
 
-web.listen(3465);
+  web.listen(3465, function () {
+    cb(web);
+  });
+}
 
 module.exports = {'csv headers': function () {
-  var options = {
-    host: 'localhost',
-    port: 3465,
-    path: '/'
-  };
-  http.get(options, function (response) {
-    web.close();
-    assert.equal(response.headers['content-type'], 'text/csv');
+  run_server(function (server) {
+    var options = {
+      host: 'localhost',
+      port: 3465,
+      path: '/'
+    };
+    http.get(options, function (response) {
+      server.close();
+      assert.equal(response.headers['content-type'], 'text/csv');
+    });
   });
 }};
