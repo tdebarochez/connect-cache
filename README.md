@@ -26,6 +26,9 @@ ConnectCache take only one parameter, a hash with following keys :
    to get contents, ex : 'localhost:3000'
 - `storage` (optional, default instance of BasicStorage) : the key-value storage system,
    see Storage paragraph for more informations
+- `sensitive` (optional, default true) : caching datas are based on URL and sometimes
+   URLs must be treated case insensitive. This option is here to avoid duplicate
+   caches.
 
 Rules must looks like :
 

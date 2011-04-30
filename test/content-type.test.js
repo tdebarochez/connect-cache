@@ -13,7 +13,7 @@ function run_server(cb) {
       res.send('example, csv, string\n2nd, line\n');
   });
 
-  web.listen(3465, function () {
+  web.listen(3565, function () {
     cb(web);
   });
 }
@@ -22,7 +22,7 @@ module.exports = {'csv headers': function () {
   run_server(function (server) {
     var options = {
       host: 'localhost',
-      port: 3465,
+      port: 3565,
       path: '/'
     };
     http.get(options, function (response) {

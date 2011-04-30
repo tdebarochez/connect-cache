@@ -4,15 +4,28 @@ var cache = require('../lib/connect-cache')
   , fs = require('fs')
   , assert = require('assert');
 
-function run_server(port, cb) {
-  var server = connect.createServer(cache({rules: [{regex: /path.*|test.jpg/, ttl: 1000}],
-                                           loopback: 'localhost:' + port}),
+function run_server(port, opts, cb) {
+  cb = cb || function () {};
+  if (typeof opts === "function") {
+    cb = opts;
+    opts = {};
+  }
+  if (!opts) {
+    opts = {}
+  }
+  if (!("rules" in opts)) {
+    opts.rules = [{regex: /path.*|test.jpg/i, ttl: 1000}];
+  }
+  if (!("loopback" in opts)) {
+    opts.loopback = 'localhost:' + port;
+  }
+  var server = connect.createServer(cache(opts),
                                     function (req, res) {
                                       if (req.url == '/') {
                                         res.writeHead(200, { 'Content-Type': 'text/plain' });
                                         res.end('direct result');
                                       }
-                                      else if (req.url == '/path') {
+                                      else if (req.url == '/path' || req.url == '/Path') {
                                         res.writeHead(200, { 'Content-Type': 'text/plain' });
                                         setTimeout(function () {
                                           res.end('cached result');
@@ -127,6 +140,45 @@ module.exports = {
             });
           });
         });
+      });
+    });
+  },
+  "insensitive url": function () {
+    var server = run_server(3465, {"sensitive": false}, function (server) {
+      var options = {
+        host: 'localhost',
+        port: 3465,
+        path: '/path'
+      };
+      http.get(options, function (response) {
+        response.on('end', function () {
+          options.path = '/Path';
+          http.get(options, function (response) {
+            assert.strictEqual(response.statusCode, 200);
+            var body = '';
+            response.on('data', function (chunk) {
+              body += chunk;
+            });
+            response.on('end', function () {
+              server.close();
+              assert.strictEqual(body, 'cached result');
+            });
+          });
+        });
+      });
+    });
+  },
+
+  "404": function () {
+    var server = run_server(3466, function (server) {
+      var options = {
+        host: 'localhost',
+        port: 3466,
+        path: '/PAth'
+      };
+      http.get(options, function (response) {
+        server.close();
+        assert.strictEqual(response.statusCode, 404);
       });
     });
   }
