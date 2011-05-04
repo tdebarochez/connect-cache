@@ -2,3 +2,4 @@
 *.iml
 cache/
 *~
+doc/build/*
