@@ -72,4 +72,5 @@ Requirements
 - node (>= 0.4.6)
 - connect (>= 0.2.4)
 - express & expresso - for tests
+- markdown - for documentation generation
 - cradle (= 0.1.0) - for CouchDB storage system
