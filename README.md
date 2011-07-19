@@ -32,9 +32,9 @@ ConnectCache take only one parameter, a hash with following keys :
 
 Rules must looks like :
 
-  {rules: [{regex: /path\/.*/, ttl: 60000},
-           {regex: /other\/path\/.*/, ttl: 3600000},
-           {regex: /specified.file/, ttl: 6000000}]}
+    {rules: [{regex: /path\/.*/, ttl: 60000},
+             {regex: /other\/path\/.*/, ttl: 3600000},
+             {regex: /specified.file/, ttl: 6000000}]}
 
 Default TTL is in ms, default value is 3600000.
 
@@ -72,4 +72,5 @@ Requirements
 - node (>= 0.4.6)
 - connect (>= 0.2.4)
 - express & expresso - for tests
+- markdown - for documentation generation
 - cradle (= 0.1.0) - for CouchDB storage system
