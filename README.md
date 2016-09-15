@@ -74,3 +74,4 @@ Requirements
 - express & expresso - for tests
 - markdown - for documentation generation
 - cradle (= 0.1.0) - for CouchDB storage system
+- js-md5 (>= 0.4.1) - for creating hashes

@@ -1,12 +1,22 @@
 {
   "name": "connect-cache",
   "description": "Caching system for Connect",
-  "keywords" : [ "connect", "cache", "caching system", "middleware" ],
+  "keywords": [
+    "connect",
+    "cache",
+    "caching system",
+    "middleware"
+  ],
   "version": "v0.2.1",
   "author": "Thomas Debarochez <thomas.barochez+npm@gmail.com>",
   "main": "./index.js",
-  "dependencies": { "connect": ">= 0.2.4" },
-  "engines": { "node": ">= 0.4.6" },
+  "dependencies": {
+    "connect": ">= 0.2.4",
+    "js-md5": "^0.4.1"
+  },
+  "engines": {
+    "node": ">= 0.4.6"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/tdebarochez/connect-cache.git"
