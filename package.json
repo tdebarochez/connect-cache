@@ -7,7 +7,7 @@
     "caching system",
     "middleware"
   ],
-  "version": "v0.2.1",
+  "version": "v0.2.2",
   "author": "Thomas Debarochez <thomas.barochez+npm@gmail.com>",
   "main": "./index.js",
   "dependencies": {
