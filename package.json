@@ -20,5 +20,9 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/tdebarochez/connect-cache.git"
+  },
+  "devDependencies": {
+    "express": "^4.14.1",
+    "expresso": "^0.9.2"
   }
 }

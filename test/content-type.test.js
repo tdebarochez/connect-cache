@@ -6,15 +6,17 @@ var express = require('express')
 });
 
 function run_server(cb) {
-  var web = express.createServer(cache);
+  var web = express();
+  web.use(cache)
 
   web.get('/', function(req, res) {
       res.contentType('text/csv');
       res.send('example, csv, string\n2nd, line\n');
   });
 
-  web.listen(3565, function () {
-    cb(web);
+  var server = http.createServer(web);
+  server.listen(3565, function () {
+    cb(server);
   });
 }
 
@@ -26,8 +28,8 @@ module.exports = {'csv headers': function () {
       path: '/'
     };
     http.get(options, function (response) {
-      assert.equal(response.headers['content-type'], 'text/csv');
       server.close();
+      assert.ok(response.headers['content-type'].match(/text\/csv/i));
     });
   });
 }};

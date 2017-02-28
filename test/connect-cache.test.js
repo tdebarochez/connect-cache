@@ -19,29 +19,31 @@ function run_server(port, opts, cb) {
   if (!("loopback" in opts)) {
     opts.loopback = 'localhost:' + port;
   }
-  var server = connect.createServer(cache(opts),
-                                    function (req, res) {
-                                      if (req.url == '/') {
-                                        res.writeHead(200, { 'Content-Type': 'text/plain' });
-                                        res.end('direct result');
-                                      }
-                                      else if (req.url == '/path' || req.url == '/Path') {
-                                        res.writeHead(200, { 'Content-Type': 'text/plain' });
-                                        setTimeout(function () {
-                                          res.end('cached result');
-                                        }, 500);
-                                      }
-                                      else if (req.url == '/test.jpg') {
-                                        var img = fs.readFileSync('static/test.jpg');
-                                        res.writeHead(200,{'Content-Type': 'image/jpeg',
-                                                           'Content-Length': img.length});
-                                        res.end(img);
-                                      }
-                                      else {
-                                        res.writeHead(404, { 'Content-Type': 'text/plain' });
-                                        res.end('not found');
-                                      }
-                                    });
+  var app = connect()
+  app.use(cache(opts))
+  app.use(function (req, res) {
+    if (req.url == '/') {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end('direct result');
+    }
+    else if (req.url == '/path' || req.url == '/Path') {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      setTimeout(function () {
+        res.end('cached result');
+      }, 500);
+    }
+    else if (req.url == '/test.jpg') {
+      var img = fs.readFileSync('static/test.jpg');
+      res.writeHead(200,{'Content-Type': 'image/jpeg',
+                         'Content-Length': img.length});
+      res.end(img);
+    }
+    else {
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('not found');
+    }
+  })
+  var server = http.createServer(app);
   server.listen(port, function () {
     cb(server);
   });
